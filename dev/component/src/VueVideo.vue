@@ -187,7 +187,7 @@
                 // video options
                 videoOptions: Object.assign({
                     // source of video (required)
-                    // src: this.options.src,
+                    src: this.options.src,
     
                     // poster
                     poster: false,
