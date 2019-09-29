@@ -107,7 +107,7 @@
 <style lang="scss">
     .banner {
         h2 {
-            // font-family: "Lato-Regular";
+            // font-family: "NanumBarunGothic";
             text-transform: uppercase;
             font-size: 35px;
             text-align: center;
@@ -115,7 +115,7 @@
             line-height: 1;
         }
         h4 {
-            // font-family: "Lato-Regular";
+            // font-family: "NanumBarunGothic";
             text-transform: capitalize;
             font-size: 25px;
             text-align: center;

@@ -9,6 +9,7 @@
                     @progress="videoProgressHandler"
                     @ended="videoEndedHandler">
                     </video>
+                    <canvas ref="canvas" />
                     <transition name="fade">
                         <div class="video-poster main-component" v-if="videoOptions.poster" v-show="!is_video_played">
                             <transition name="fade">
@@ -164,6 +165,12 @@
     
                 // video
                 video: false,
+
+                // canvas to draw video
+                canvas: false,
+
+                // canvas context to draw into
+                canvasContext: false,
     
                 // check if the current video is ready for play
                 videoCanplay: false,
@@ -237,15 +244,28 @@
         },
         mounted() {
             this.video = this.$refs.video;
+            this.canvas = this.$refs.canvas;
+            this.canvasContext = this.canvas.getContext('2d');
             this.volume = this.$refs.volume;
             this.fullscreenElement = Platform.isDesktop ? this.$refs['vue-video'] : this.video;
+
+            // register global event to video
+            window.addEventListener('resize', () => {
+                const canvasWidth = this.canvas.clientWidth;
+                const canvasHeight = this.canvas.clientHeight;
+
+                this.canvas.width = canvasWidth
+                this.canvas.height = canvasHeight
+
+                console.log(`${canvasWidth}x${canvasHeight}`)
+            });
     
             // first time load poster
             this.posterLoadHandler();
 
             // the endframe
             this.endFrameLoadHandler();
-
+            
             // is_video_play = if show the play button
             // in case it'll shown and disappear when auto play
             this.is_video_play = this.videoOptions.autoPlay;
@@ -318,6 +338,10 @@
                 // if (this.videoOptions.autoPlay) {
                 //     setTimeout(this.videoClickHandler, 500);
                 // }
+
+                // reinitalize canvas width & height
+                this.canvas.width = this.video.videoWidth;
+                this.canvas.height = this.video.videoHeight;
 
                 // check the current buffering status
                 this.videoProgressHandler();
@@ -467,6 +491,14 @@
                 if (this.video.currentTime === 0) {
                     this.$emit('start', this);
                 }
+
+                // Begin drawing video into Canvas
+                const $this = this;
+                (function loop() {
+                    $this.canvasContext.drawImage($this.video, 0, 0);
+                    if($this.is_video_play)
+                        setTimeout(loop, 1000 / 30);
+                })();
             },
     
             // when video is ended
@@ -712,12 +744,18 @@
                 display: none;
             }
             video {
+                display: none !important;
                 position: relative;
                 display: block;
                 width: 100%;
                 &::-webkit-media-controls {
                     display: none !important;
                 }
+            }
+            canvas {
+                position: relative;
+                display: block;
+                width: 100%;
             }
             .main-component {
                 position: absolute;

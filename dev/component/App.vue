@@ -11,7 +11,12 @@
 <style lang="scss">
     @import "../style/mixin";
     @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-    @include font-face("Lato-Regular");
+    @font-face {
+        font-family: 'NanumBarunGothic';
+        src: url('../font/NanumBarunGothic.eot') format('eot');
+        src: url('../font/NanumBarunGothic.ttf') format('ttf');
+        src: url('../font/NanumBarunGothic.woff') format('woff');
+    }
     html,
     body {
         position: relative;
