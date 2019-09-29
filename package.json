@@ -1,6 +1,6 @@
 {
   "name": "vue-video-module",
-  "version": "0.4.6",
+  "version": "0.5",
   "description": "a video component built for vue",
   "main": "bundle/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iapYang/vue-video-module"
+    "url": "git+https://github.com/jungin500/vue-video-module"
   },
   "license": "ISC",
   "devDependencies": {
